@@ -34,7 +34,6 @@ def userLogin(request):
     
     #round about way to authenticate with email, by matching email to username.
     #then using the username to authenticate
-    # username = User.objects.get(email=email)
     user = authenticate(email=email, password=password)
     
     if user is not None:
