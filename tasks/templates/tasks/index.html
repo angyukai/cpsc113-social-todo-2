@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CPSC113 Social Todo </title>
+</head>
+
+
+{% if task_list %}
+    <h1>Your Tasks</h1>
+    <hr></hr>
+    <ul>
+    {% for task in task_list %}
+        <li class="tasks-list-item">
+            <b>Title: </b>{{ task.title }}
+            <br>
+            <b>Description: </b>{{ task.description }}
+            <br>
+            <b>Owner: </b>{{ task.owner }}
+            <hr>
+            </hr>
+        
+        </li>
+        <!--enter options for marking complete and deleting here-->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tasks to show.</p>
+{% endif %}
+
+    
+<footer>
+    <a href="/user/logout">Logout</a>
+</footer>
+<!--</body>-->
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CPSC113 Social Todo </title>
+</head>
+    <h1>Yukai's SOCIAL 2DO2!!!</h1>
+    <div>
+    <h1><font color='red'>LOGIN HERREEE!!!!</font></h1>
+    <form class="login-form" action="/user/login" method="POST">
+        <input name="email" type="email" class="text-input" placeholder="email">
+        <br>
+        <input name="password" type="password" class="text-input" placeholder="password">
+        <br>
+        <input type="submit"  class="log-in-submit", value='Login'>
+    </form>
+</div>
+
+<div> <hr></div>
+
+<h1><font color='red'>REGISTERR HERREEE!!!!</font></h1>
+
+{% block content %}
+  <h1>REGISTER NOWW</h1>
+
+  <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Create the account">
+  </form>
+{% endblock %}
+
+</html>
