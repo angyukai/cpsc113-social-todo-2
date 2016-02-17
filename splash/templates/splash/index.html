@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Yukai's Social To Do App 2</title>
-    </head>
+<head>
+    <meta charset="utf-8">
+    <title>CPSC113 Social Todo </title>
+</head>
+    <h1>Yukai's SOCIAL 2DO2!!!</h1>
+    <div>
+    <h1><font color='red'>LOGIN HERREEE!!!!</font></h1>
+    <form class="login-form" action="/user/login" method="POST">
+        <input name="email" type="email" class="text-input" placeholder="email">
+        <br>
+        <input name="password" type="password" class="text-input" placeholder="password">
+        <br>
+        <input type="submit"  class="log-in-submit", value='Login'>
+    </form>
+</div>
 
-    <body>
-        <h1>Register with Rango</h1>
+<div> <hr></div>
 
-        {% if registered %}
-        Rango says: <strong>thank you for registering!</strong>
-        <a href="/rango/">Return to the homepage.</a><br />
-        {% else %}
-        Rango says: <strong>register here!</strong><br />
+<h1><font color='red'>REGISTERR HERREEE!!!!</font></h1>
 
-        <form id="user_form" method="post" action="/register/"
-                enctype="multipart/form-data">
+{% block content %}
+  <h1>REGISTER NOWW</h1>
 
-            {% csrf_token %}
+  <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Create the account">
+  </form>
+{% endblock %}
 
-            <!-- Display each form. The as_p method wraps each element in a paragraph
-                 (<p>) element. This ensures each element appears on a new line,
-                 making everything look neater. -->
-            {{ user_form.as_p }}
-
-
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Register" />
-            <a href="/register">Register Here</a>
-            
-        </form>
-        {% endif %}
-    </body>
 </html>
