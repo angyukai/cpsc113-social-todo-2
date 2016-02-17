@@ -9,8 +9,8 @@ from django.http import HttpResponseRedirect
 from forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from .models import myUser
 # Create your views here.
-
     
 
 def index(request):
@@ -29,12 +29,14 @@ def index(request):
 
 def userLogin(request):
     
-    email = request.POST['email']
+    username = request.POST['email']
     password = request.POST['password']
     
     #round about way to authenticate with email, by matching email to username.
     #then using the username to authenticate
-    user = authenticate(email=email, password=password)
+    # user = myUser.objects.get(email=email)
+    # if user.check_password(password):
+    user = authenticate(username=username, password=password)
     
     if user is not None:
         login(request, user)
