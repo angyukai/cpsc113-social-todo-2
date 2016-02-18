@@ -80,7 +80,7 @@ def createTask(request):
         collab3 = request.POST['collaborator3']
         collabs = [collab1,collab2,collab3]
         
-        task = Task(owner = owner, title = title, description = description, collaborators = collabs)
+        task = Task(owner = owner, title = title, description = description)
         task.save()
         
     return HttpResponseRedirect("/tasks")
