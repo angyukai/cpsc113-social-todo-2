@@ -39,7 +39,8 @@ def userLogin(request):
     user = authenticate(username=username, password=password)
     
     if user is not None:
-        login(request, user)
-        return HttpResponseRedirect("/tasks")
+        if user.is_active:
+            login(request, user)
+            return HttpResponseRedirect("/tasks")
     else:
         return HttpResponseRedirect("/users")
