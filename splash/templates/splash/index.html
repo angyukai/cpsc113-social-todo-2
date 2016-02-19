@@ -7,12 +7,14 @@
     <h1>Yukai's SOCIAL 2DO2!!!</h1>
     <div>
     <h1><font color='red'>LOGIN HERREEE!!!!</font></h1>
-    <form class="login-form" action="/user/login" method="POST">
+    <form class="login-form" action="/userLogin" method="POST">
+         {% csrf_token %}
         <input name="email" type="email" class="text-input" placeholder="email">
         <br>
         <input name="password" type="password" class="text-input" placeholder="password">
         <br>
         <input type="submit"  class="log-in-submit", value='Login'>
+
     </form>
 </div>
 
