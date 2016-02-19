@@ -2,17 +2,24 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from splash.models import myUser
+# from . import CollabEmails
 
 # Create your models here.
 
 #Do i put my users here?
 
-
+        
+class CollabEmails(models.Model):
+    
+    email = models.EmailField(max_length = 50)
+    def __str__(self):
+        return self.email
+        
 class Task(models.Model):
     owner = models.ForeignKey(myUser, related_name="owned_tasks")
     title = models.CharField(max_length=10)
     description = models.CharField(max_length=5000)
-    collaborators = models.ManyToManyField(myUser)
+    collaborators = models.ManyToManyField(CollabEmails)
     isComplete = models.BooleanField(default=False)
     
     

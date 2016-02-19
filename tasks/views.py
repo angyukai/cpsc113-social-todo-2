@@ -5,7 +5,9 @@ from django.contrib.auth import authenticate, login
 from django.template import loader
 from django.contrib.auth import logout
 from .models import Task
+from .models import CollabEmails
 from splash.models import myUser
+
 from itertools import chain
 from django.db.models import Q
 from forms import taskForm
@@ -16,9 +18,11 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     
     user = request.user
+    print user.email
     
     task_list1 = Task.objects.filter(owner=user)
-    task_list2 = Task.objects.filter(collaborators=user)
+    
+    task_list2 = Task.objects.filter(collaborators__email=user.email)
     
     task_list = chain(task_list1,task_list2)
     
@@ -96,25 +100,34 @@ def createTask(request):
     
     if request.method == 'POST':
         
-        collab1 = request.POST['collab1']
-        collab2 = request.POST['collab2']
-        collab3 = request.POST['collab3']
-        
+        collab1 = CollabEmails(email = request.POST['collab1'])
+        collab1.save()
+        collab2 = CollabEmails(email = request.POST['collab2'])
+        collab2.save()
+        collab3 = CollabEmails(email = request.POST['collab3'])
+        collab3.save()
+
         form = taskForm(request.POST)
         
         if form.is_valid():
             
             
             
-            collabs = [collab1, collab2, collab3]
+            # collabs = [collab1, collab2, collab3]
             
-            for c in collabs:
-                print c
+            # for c in collabs:
+            #     print c
+            
+            print collab1
+            print collab2
+            print collab3
             
             data = form.cleaned_data
             task = Task(owner = request.user, title = data['title'], 
             description = data['description'])
             task.save()
+            
+            # print task.owner
             
             task.collaborators.add(collab1)
             task.collaborators.add(collab2)
