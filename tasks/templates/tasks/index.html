@@ -14,13 +14,13 @@
         {% for task in task_list %}
             <li class="tasks-list-item">
                 
-                <!--{% if task.owner == 'yukai@email.com' %}-->
-                <!--<b>this is your task</b>-->
-                <!--{% else %}-->
-                <!--<b>NOT your task</b>-->
-                <!--{% endif %}-->
+                {% if task.owner == 'yukai@email.com' %}
+                <b>this is your task</b>
+                {% else %}
+                <b>NOT your task</b>
+                {% endif %}
                 
-                <!--<br>-->
+                <br>
                 
                 <b>Title: </b>{{ task.title }}
                 <br>
@@ -28,7 +28,7 @@
                 <br>
                 <b>Owner: </b>{{ task.owner }}
                 <br>
-                <!--<a href="completeTask">Mark complete</a>-->
+                <a href="completeTask">Mark complete</a>
                 <br>
                 {% if task.isComplete %}
                     <b><font color='green'>COMPLETED :)</font></b>
@@ -52,7 +52,7 @@
 
             
             </li>
-            <!--enter options for marking complete and deleting here-->
+
         {% endfor %}
         </ul>
     {% else %}
@@ -62,21 +62,38 @@
     <div>
          
      <h1>Add a new task HERE</h1>
-     <form action="createTask" method="POST">
-         {% csrf_token %}
-         <input type="hidden" name="email" value={{user.email}}>
-         <label for="title">Task title</label>
-         <input name="title" type="text"><br>
-         <label for="description">Task Description</label>
-         <input name="description" type="text">
-         <br>
-         Collaborators<br>
-         <input name="collaborator1" type="email"><br>
-         <input name="collaborator2" type="email"><br>
-         <input name="collaborator3" type="email"><br>
-         <input type="submit" class="create-task-submit">
-    </form>        
+    <!-- <form action="createTask" method="POST">-->
+    <!--     {% csrf_token %}-->
+         <!--<input type="hidden" name="email" value={{user.email}}>-->
+         <!--<label for="title">Task title</label>-->
+         <!--<input name="title" type="text"><br>-->
+         <!--<label for="description">Task Description</label>-->
+         <!--<input name="description" type="text">-->
+         <!--<br>-->
+         <!--Collaborators<br>-->
+         <!--<input name="collaborator1" type="email"><br>-->
+         <!--<input name="collaborator2" type="email"><br>-->
+         <!--<input name="collaborator3" type="email"><br>-->
+         <!--<input type="submit" class="create-task-submit">-->
+    <!--     hihi how are you? :)-->
+    <!--     {{ form.as_p }}-->
+    <!--</form>        -->
+    {% block content %}
+    
+        <form action="createTask" method="POST">
+            {% csrf_token %}
+
+            {{ task_Form.as_p }}
+            
+            <input name="collab1" type="email"><br>
+            <input name="collab2" type="email"><br>
+            <input name="collab3" type="email"><br>
+            
+          <input type="submit" value="Create a task">
+        </form>
+    
     </div>
+    {% endblock %}
     
         
     <footer>

@@ -8,22 +8,26 @@ from .models import Task
 from splash.models import myUser
 from itertools import chain
 from django.db.models import Q
+from forms import taskForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 def index(request):
     
-    
     user = request.user
+    
     task_list1 = Task.objects.filter(owner=user)
     task_list2 = Task.objects.filter(collaborators=user)
     
     task_list = chain(task_list1,task_list2)
     
-    context = {'task_list': task_list}
-                # 'collab_list': collab_list}
+    context = {'task_list': task_list, 'task_Form': taskForm}
+
     template = loader.get_template("tasks/index.html")
+    
     return HttpResponse(template.render(context, request))
+
     
     
     
@@ -65,25 +69,68 @@ def deleteTask(request):
         task.delete()
     return HttpResponseRedirect("/tasks")
 
-def createTask(request):
+# def createTask(request):
     
-    print 'hello im creating a task'
+#     print 'hello im creating a task'
+    
+#     if request.method == 'POST':
+        
+#         email = request.POST['email']
+#         owner = myUser.objects.get(email=email)
+#         title = request.POST['title']
+#         description = request.POST['description']
+#         collab1 = request.POST['collaborator1']
+#         collab2 = request.POST['collaborator2']
+#         collab3 = request.POST['collaborator3']
+#         collabs = [collab1,collab2,collab3]
+        
+        
+        
+#         task = Task(owner = owner, title = title, description = description)
+#         task.save()
+        
+#     return HttpResponseRedirect("/tasks")
+
+@login_required
+def createTask(request):
     
     if request.method == 'POST':
         
-        email = request.POST['email']
-        owner = myUser.objects.get(email=email)
-        title = request.POST['title']
-        description = request.POST['description']
-        collab1 = request.POST['collaborator1']
-        collab2 = request.POST['collaborator2']
-        collab3 = request.POST['collaborator3']
-        collabs = [collab1,collab2,collab3]
+        collab1 = request.POST['collab1']
+        collab2 = request.POST['collab2']
+        collab3 = request.POST['collab3']
         
-        task = Task(owner = owner, title = title, description = description)
-        task.save()
+        form = taskForm(request.POST)
         
-    return HttpResponseRedirect("/tasks")
+        if form.is_valid():
+            
+            
+            
+            collabs = [collab1, collab2, collab3]
+            
+            for c in collabs:
+                print c
+            
+            data = form.cleaned_data
+            task = Task(owner = request.user, title = data['title'], 
+            description = data['description'])
+            task.save()
+            
+            task.collaborators.add(collab1)
+            task.collaborators.add(collab2)
+            task.collaborators.add(collab3)
+            # for c in collabs:
+            #     task.collaborators.add(c)
+            task.save()
+            # user = request.user
+            # new_task = form.save(form, user)
+            # return HttpResponseRedirect("/tasks")
+            
+    else:
+        
+        form = taskForm()
+        
+    return HttpResponseRedirect('/tasks')
     
     
     

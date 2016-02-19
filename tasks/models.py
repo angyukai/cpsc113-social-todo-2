@@ -10,14 +10,14 @@ from splash.models import myUser
 
 class Task(models.Model):
     owner = models.ForeignKey(myUser, related_name="owned_tasks")
-    title = models.CharField(max_length=500)
+    title = models.CharField(max_length=10)
     description = models.CharField(max_length=5000)
-    collaborators = models.ManyToManyField(myUser, related_name="tasks")
+    collaborators = models.ManyToManyField(myUser)
     isComplete = models.BooleanField(default=False)
     
     
     def __str__(self):
-        # return self.owner
+        return self.owner
         return self.title
         return self.description
     

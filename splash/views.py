@@ -18,13 +18,16 @@ def index(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            return HttpResponseRedirect("/")
+            user = form.save()
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, user)
+            return HttpResponseRedirect("/tasks")
     else:
         
         form = UserRegistrationForm()
         
     return render(request, "splash/index.html", {'form': form,})
+
     
 
 def userLogin(request):
@@ -44,3 +47,16 @@ def userLogin(request):
             return HttpResponseRedirect("/tasks")
     else:
         return HttpResponseRedirect("/users")
+
+# def test(request):
+#     if request.method == 'POST':
+#         form = UserRegistrationForm(request.POST)
+#         if form.is_valid():
+#             new_user = form.save()
+#             return HttpResponseRedirect("/")
+#     else:
+        
+#         form = UserRegistrationForm()
+        
+#     return render(request, "splash/index.html", {'form': form,})
+    
