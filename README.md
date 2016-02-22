@@ -8,6 +8,9 @@
     I honestly have no idea how to overcome this, I've tried everything I know. But hope you accept my code as it is.
     Thanks!
 
+#Hosting on Cloud9
+
+    I will be hosting my code on cloud9 so I'm guessing I'll need to share my workspace with one of you?
 
 
 #My Code Strucure
