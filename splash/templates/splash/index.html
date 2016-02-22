@@ -2,12 +2,16 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>CPSC113 Social Todo </title>
+    <title>CPSC113 Todo</title>
 </head>
     <h1>Yukai's SOCIAL 2DO2!!!</h1>
+    {% if error %}
+	    <h3 class="validation-error">{{error}}</h3>
+	{% endif %}
     <div>
     <h1><font color='red'>LOGIN HERREEE!!!!</font></h1>
-    <form class="login-form" action="/userLogin" method="POST">
+    
+    <form class="login" action="/user/login" method="POST">
          {% csrf_token %}
         <input name="email" type="email" class="text-input" placeholder="email">
         <br>
@@ -25,11 +29,16 @@
 {% block content %}
   <h1>REGISTER NOWW</h1>
 
-  <form action="" method="post">
+  <form action="/user/register" class="signup-form" method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" value="Create the account">
+      {{ form }}
+      <input class="sign-up-submit" name="sign-up-submit" type="submit" value="Create the account">
   </form>
+  
+  
 {% endblock %}
+
+<a href="/logout" class="logout">Logout</a>
+
 
 </html>

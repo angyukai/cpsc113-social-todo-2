@@ -44,12 +44,13 @@ class myUserManager(BaseUserManager):
 
 
 class myUser(AbstractBaseUser):
+    
     """ 
     Custom user with email for authentication
     """
     
     email = models.EmailField('email', unique=True, db_index=True)
-    first_name = models.CharField('first_name', max_length=50)
+    fl_name = models.CharField('first_name', max_length=50)
     last_name = models.CharField('last_name', max_length=50)
     last_name = models.CharField(max_length=50)
     joined = models.DateTimeField(auto_now_add=True)
@@ -59,7 +60,7 @@ class myUser(AbstractBaseUser):
     objects = myUserManager()
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = ['fl_name']
 
     def get_full_name(self):
         # The user is identified by their email address

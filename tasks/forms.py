@@ -2,22 +2,28 @@ from django.forms import ModelForm
 from .models import Task
 from django import forms
 
-class taskForm(ModelForm):
-    
-    title = forms.CharField(min_length = 1, max_length = 50)
-    description = forms.CharField(min_length = 1, max_length = 50)
+class ValidationError(Exception):
+	def __init__(self, value):
+		self.value = value
+	def __str__(self):
+		return repr(self.value)
 
-    class Meta:
-        model = Task
-        fields = ['title','description']
+
+class taskForm(forms.Form):
+    
+	title = forms.CharField(label='title')
+	description = forms.CharField(label='description',required=False)
+
+	class Meta:
+		model = Task
+		
+		
+		
+		
+    	
         
-    # def save(self, user, commit=True):
-    #     Task = super(taskForm, self).save(commit=False)
-    #     Task.owner = user
-    #     # Task.description = self.cleaned_data['description']
-    #     # Task.collaborators = self.cleaned_data['collaborators']
-        
-    #     if commit:
-    #         Task.save()
-        
-    #     return Task
+
+	    
+	
+	
+		

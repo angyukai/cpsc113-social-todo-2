@@ -17,7 +17,7 @@ class CollabEmails(models.Model):
         
 class Task(models.Model):
     owner = models.ForeignKey(myUser, related_name="owned_tasks")
-    title = models.CharField(max_length=10)
+    title = models.CharField(max_length=500)
     description = models.CharField(max_length=5000)
     collaborators = models.ManyToManyField(CollabEmails)
     isComplete = models.BooleanField(default=False)
@@ -31,8 +31,3 @@ class Task(models.Model):
     def isCompleteStatus(self):
         return isComplete
 
-# class TestQuestion(models.Model):
-#     q_text = models.CharField(max_length=500)
-#     q_name = models.CharField(max_length=500)
-#     def __str__(self):
-#         return self.q_text

@@ -7,15 +7,31 @@ from django.contrib.auth import logout
 from .models import Task
 from .models import CollabEmails
 from splash.models import myUser
-
+from django import forms
 from itertools import chain
 from django.db.models import Q
 from forms import taskForm
 from django.contrib.auth.decorators import login_required
+from splash.forms import ValidationError
 
 # Create your views here.
 
+
+def errors_to_strings(argument):
+    switcher = {
+        'invalid_email': "Invalid email address",
+        'a':'Title too short',
+        'b':'Title too long',
+        'c':'Description too short',
+        'd':'Description too long'
+        }
+    return switcher.get(argument, argument)
+
 def index(request):
+    
+    if request.method == 'GET':
+		error = request.GET.get('error','')
+		error = errors_to_strings(error)
     
     user = request.user
     print user.email
@@ -26,7 +42,7 @@ def index(request):
     
     task_list = chain(task_list1,task_list2)
     
-    context = {'task_list': task_list, 'task_Form': taskForm}
+    context = {'task_list': task_list, 'task_Form': taskForm, 'error': error}
 
     template = loader.get_template("tasks/index.html")
     
@@ -73,32 +89,13 @@ def deleteTask(request):
         task.delete()
     return HttpResponseRedirect("/tasks")
 
-# def createTask(request):
-    
-#     print 'hello im creating a task'
-    
-#     if request.method == 'POST':
-        
-#         email = request.POST['email']
-#         owner = myUser.objects.get(email=email)
-#         title = request.POST['title']
-#         description = request.POST['description']
-#         collab1 = request.POST['collaborator1']
-#         collab2 = request.POST['collaborator2']
-#         collab3 = request.POST['collaborator3']
-#         collabs = [collab1,collab2,collab3]
-        
-        
-        
-#         task = Task(owner = owner, title = title, description = description)
-#         task.save()
-        
-#     return HttpResponseRedirect("/tasks")
+
 
 @login_required
 def createTask(request):
     
     if request.method == 'POST':
+        
         
         collab1 = CollabEmails(email = request.POST['collab1'])
         collab1.save()
@@ -111,39 +108,42 @@ def createTask(request):
         
         if form.is_valid():
             
-            
-            
-            # collabs = [collab1, collab2, collab3]
-            
-            # for c in collabs:
-            #     print c
-            
-            print collab1
-            print collab2
-            print collab3
-            
-            data = form.cleaned_data
-            task = Task(owner = request.user, title = data['title'], 
-            description = data['description'])
-            task.save()
-            
-            # print task.owner
-            
-            task.collaborators.add(collab1)
-            task.collaborators.add(collab2)
-            task.collaborators.add(collab3)
-            # for c in collabs:
-            #     task.collaborators.add(c)
-            task.save()
-            # user = request.user
-            # new_task = form.save(form, user)
-            # return HttpResponseRedirect("/tasks")
-            
-    else:
+            try:
+
+                data = form.cleaned_data
+                
+                title = data['title']
+                desc = data ['description']
+                
+                if len(title) < 1:
+                    raise ValidationError('a')
+                elif len(title) > 500:
+                    raise ValidationError('b')
+                
+                if len(desc) < 1:
+                    raise ValidationError('c')
+                elif len(desc) > 5000:
+                    raise ValidationError('d')
+                
+                task = Task(owner = request.user, title = data['title'], description = data['description'])
+                task.save()
+                
+                
+                task.collaborators.add(collab1)
+                task.collaborators.add(collab2)
+                task.collaborators.add(collab3)
+
+                task.save()
+                return HttpResponseRedirect('/tasks')
+                
+            except Exception as error:
+                return HttpResponseRedirect('/tasks?error='+str(error)[1:-1])
+            return HttpResponseRedirect('/tasks')
+                # 			return HttpResponseRedirect('/')
+        return HttpResponseRedirect('/tasks?error=invalid_input')
+    return HttpResponse(403)
         
-        form = taskForm()
-        
-    return HttpResponseRedirect('/tasks')
+    
     
     
     

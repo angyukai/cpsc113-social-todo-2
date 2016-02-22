@@ -2,33 +2,38 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>CPSC113 Social Todo </title>
-</head>
+    <head>
+    <title>CPSC113 Todo </title>
+    
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    </head>
+<!--<button>Regular Button</button>-->
+<!--<button class="btn btn-primary">Primary Button</button>-->
+<!--<button class="btn btn-info">Info Button</button>-->
+<!--<button class="btn btn-success">Success Button</button>-->
+<!--<button class="btn btn-warning">Warning Button</button>-->
+<!--<button class="btn btn-danger">Danger Button</button>-->
 
 {% if user.is_authenticated %}
-    <h1>Welcome {{user.first_name}}</h1>
+    <h1>Welcome, {{user.fl_name}}</h1>
     {% if task_list %}
         <h1>Your Tasks</h1>
         <hr></hr>
-        <ul>
+        <ul class = "tasks-list">
         {% for task in task_list %}
             <li class="tasks-list-item">
                 
-                <!--{% if task.owner == 'yukai@email.com' %}-->
-                <!--<b>this is your task</b>-->
-                <!--{% else %}-->
-                <!--<b>NOT your task</b>-->
-                <!--{% endif %}-->
-                
+                <span class="task-title"><b>Title: </b>{{ task.title }}</span>
                 <br>
-                
-                <b>Title: </b>{{ task.title }}
-                <br>
-                <b>Description: </b>{{ task.description }}
+                <span class="task-description"><b>Description: </b>{{ task.description }}</span>
                 <br>
                 <b>Owner: </b>{{ task.owner }}
                 <br>
-                <a href="completeTask">Mark complete</a>
+                <!--<a href="completeTask">Mark complete</a>-->
                 <br>
                 {% if task.isComplete %}
                     <b><font color='green'>COMPLETED :)</font></b>
@@ -36,17 +41,24 @@
                     <b><font color='red'>NOT COMPLETED :(</font></b>
                 {% endif %}
                 
-                <form action="deleteTask" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="taskId" value={{task.id}}>
-                    <input type="submit" name="delete-task" class="delete-task" value="DELETE ME!!">
-                </form>
+                {% if user == task.owner %}
+                    <form action="deleteTask" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="taskId" value={{task.id}}>
+                        <!--<input type="submit" name="delete-task" class="delete-task" value="DELETE ME!!">-->
+                        <button type = 'submit' style = 'color: red' class="delete-task">Delete</button>
+                    </form>
+                {% else %}
+                {% endif %}
+ 
                 
                 <form action="completeTask" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="taskId" value={{task.id}}>
-                    <input type="submit" name="toggle-task" class="toggle-task" value="Mark complete">
+                    <!--<input type="submit" name="toggle-task" class="toggle-task" value="Mark complete">-->
+                    <button type='submit' class="toggle-task" name='toggle-task'>Mark Complete</button>
                 </form>
+
                 <hr>
                 </hr>
 
@@ -62,43 +74,31 @@
     <div>
          
      <h1>Add a new task HERE</h1>
-    <!-- <form action="createTask" method="POST">-->
-    <!--     {% csrf_token %}-->
-         <!--<input type="hidden" name="email" value={{user.email}}>-->
-         <!--<label for="title">Task title</label>-->
-         <!--<input name="title" type="text"><br>-->
-         <!--<label for="description">Task Description</label>-->
-         <!--<input name="description" type="text">-->
-         <!--<br>-->
-         <!--Collaborators<br>-->
-         <!--<input name="collaborator1" type="email"><br>-->
-         <!--<input name="collaborator2" type="email"><br>-->
-         <!--<input name="collaborator3" type="email"><br>-->
-         <!--<input type="submit" class="create-task-submit">-->
-    <!--     hihi how are you? :)-->
-    <!--     {{ form.as_p }}-->
-    <!--</form>        -->
-    {% block content %}
-    
-        <form action="createTask" method="POST">
+     
+    {% if error %}
+	    <h3 class="validation-error"><font color = 'red'>{{error}}</font></h3>
+	{% endif %}
+
+    <!--to create a new task-->
+        <form class = "create-task" action="createTask" method="POST" name = "create-task">
             {% csrf_token %}
 
-            {{ task_Form.as_p }}
+            {{ task_Form }}
             
             <input name="collab1" type="email"><br>
             <input name="collab2" type="email"><br>
             <input name="collab3" type="email"><br>
             
-          <input type="submit" value="Create a task">
+          <input type="submit" class = "create-task-submit" value="Create a task">
         </form>
     
     </div>
-    {% endblock %}
     
-        
-    <footer>
         <br><br>
-        <a href="userLogout">Logout</a>
+        <a href="/logout" class="logout">Logout</a>
+
+        <!--<a href="userLogout" class = "logout">Logout</a>-->
+
 {% else %}
     <h1>login first trololol</h1>
 {% endif %}
