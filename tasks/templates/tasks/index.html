@@ -6,28 +6,47 @@
     <title>CPSC113 Todo </title>
     
     <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/readable/bootstrap.min.css" rel="stylesheet" integrity="sha256-1ROOYEu5qE1d8KD4rRwaA0SiMa6HgZbi8wfdUq2Y4KY= sha512-OF8N9v4J29doCMzg5g0dJ6uz/bnqOaMGz1XFy15YomHPsHAhg52BKTqqi6n7n/Fid2V9CZu2SkyEwivsoUTH7Q==" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">-->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">-->
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    </head>
-<!--<button>Regular Button</button>-->
-<!--<button class="btn btn-primary">Primary Button</button>-->
-<!--<button class="btn btn-info">Info Button</button>-->
-<!--<button class="btn btn-success">Success Button</button>-->
-<!--<button class="btn btn-warning">Warning Button</button>-->
-<!--<button class="btn btn-danger">Danger Button</button>-->
 
-{% if user.is_authenticated %}
+{% if not user.is_anonymous %}
     <h1>Welcome, {{user.fl_name}}</h1>
+    
+    <h1>Add a new task here</h1>
+     
+    {% if error %}
+	    <h3 class="validation-error"><font color = 'red'>{{error}}</font></h3>
+	{% endif %}
+    <!--to create a new task-->
+    <form class = "create-task" action="createTask" method="POST">
+        {% csrf_token %}
+
+        {{ task_Form }}
+        <br>
+        <h4>collaborators</h4>
+        <br>
+        <input name="collab1" type="email"><br>
+        <input name="collab2" type="email"><br>
+        <input name="collab3" type="email"><br>
+        
+        <input type="submit" class = "create-task-submit" value="Create a task">
+    </form>
     {% if task_list %}
         <h1>Your Tasks</h1>
         <hr></hr>
         <ul class = "tasks-list">
         {% for task in task_list %}
+ 
             <li class="tasks-list-item">
-                
                 <span class="task-title"><b>Title: </b>{{ task.title }}</span>
+                {% if task.isComplete %}
+                    <span class="label label-success">Completed :)</span>
+                {% else %}
+                    
+                    <span class="label label-danger">Not Completed</span>
+                {% endif %}
                 <br>
                 <span class="task-description"><b>Description: </b>{{ task.description }}</span>
                 <br>
@@ -35,12 +54,6 @@
                 <br>
                 <!--<a href="completeTask">Mark complete</a>-->
                 <br>
-                {% if task.isComplete %}
-                    <b><font color='green'>COMPLETED :)</font></b>
-                {% else %}
-                    <b><font color='red'>NOT COMPLETED :(</font></b>
-                {% endif %}
-                
                 {% if user == task.owner %}
                     <form action="deleteTask" method="POST">
                         {% csrf_token %}
@@ -71,31 +84,10 @@
         <p>No tasks to show.</p>
     {% endif %}
     
-    <div>
-         
-     <h1>Add a new task HERE</h1>
-     
-    {% if error %}
-	    <h3 class="validation-error"><font color = 'red'>{{error}}</font></h3>
-	{% endif %}
 
-    <!--to create a new task-->
-        <form class = "create-task" action="createTask" method="POST" name = "create-task">
-            {% csrf_token %}
-
-            {{ task_Form }}
-            
-            <input name="collab1" type="email"><br>
-            <input name="collab2" type="email"><br>
-            <input name="collab3" type="email"><br>
-            
-          <input type="submit" class = "create-task-submit" value="Create a task">
-        </form>
-    
-    </div>
     
         <br><br>
-        <a href="/logout" class="logout">Logout</a>
+        <a href="userLogout" class="logout">Logout</a>
 
         <!--<a href="userLogout" class = "logout">Logout</a>-->
 

@@ -61,8 +61,7 @@ def completeTask(request):
     
     if request.method == 'POST':
         taskId = request.POST['taskId']
-        
-        # isComplete = request.post.isComplete
+  
         task = Task.objects.get(id=taskId)
         # print task
         
@@ -144,11 +143,6 @@ def createTask(request):
     return HttpResponse(403)
         
     
-    
-    
-    
-def say_whatsup(request):
-    return HttpResponse("Hello, WHAT IS UP?")
     
     
 def detail(request, task_id):

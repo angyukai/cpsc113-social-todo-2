@@ -63,13 +63,14 @@ def userRegistration(request):
     if request.method == 'POST':
         
         form = UserRegistrationForm(request.POST)
-        # try:
+        
         if form.is_valid():
             try:
                 user = form.save()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)
                 return HttpResponseRedirect("/tasks")
+                
             except Exception as error:
                 return HttpResponseRedirect('/?error='+str(error)[1:-1])
             return HttpResponseRedirect('/')

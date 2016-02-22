@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>CPSC113 Todo</title>
 </head>
+<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/readable/bootstrap.min.css" rel="stylesheet" integrity="sha256-1ROOYEu5qE1d8KD4rRwaA0SiMa6HgZbi8wfdUq2Y4KY= sha512-OF8N9v4J29doCMzg5g0dJ6uz/bnqOaMGz1XFy15YomHPsHAhg52BKTqqi6n7n/Fid2V9CZu2SkyEwivsoUTH7Q==" crossorigin="anonymous">
     <h1>Yukai's SOCIAL 2DO2!!!</h1>
     {% if error %}
 	    <h3 class="validation-error">{{error}}</h3>
@@ -32,7 +33,7 @@
   <form action="/user/register" class="signup-form" method="post">
       {% csrf_token %}
       {{ form }}
-      <input class="sign-up-submit" name="sign-up-submit" type="submit" value="Create the account">
+      <input class="sign-up-submit" type="submit" value="Create the account">
   </form>
   
   
