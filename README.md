@@ -1,20 +1,26 @@
-# Social todo Django starter code
 
 
 
-My Comments for the assignment:
-
-The main logic of the app is working, however I am unable to pass tests beyond registration checks because the test cannot seem to find my task creation form even though I specifically gave it the class "create-task".
-
-I'm honestly have no idea how to overcome this, I've tried everything I know. But hope you accept my code as it is.
-
-Thanks!
+# My Comments for the assignment:
 
 
+    The main logic of the app is working, however I am unable to pass tests beyond registration checks because the test cannot seem to find my task creation form even though I specifically gave it the class "create-task".
+    I honestly have no idea how to overcome this, I've tried everything I know. But hope you accept my code as it is.
+    Thanks!
 
-We wrote this in office hours. It defines the models for tasks,
-migrations, etc. It is based on the 
-[Django tutorial](https://docs.djangoproject.com/en/1.9/intro/).
+
+
+#My Code Strucure
+
+    I decided to split my apps into two, splash and tasks. splash contains the models, views and html pertaining to users, login and registration. Once logged in, it will direct the user to the html i wrote in my tasks app.
+    My tasks app contains models, views and htmls of Tasks, task creation and actions you can do to tasks. It imports the user models from the splash app.
+    
+#Custom User Model
+    
+
+    So I stupidly created a custom user model called 'myUser' just to get my email authentication to work. That's why is specified AUTH_USER_MODEL = 'splash.myUsers' in order for my authentications to work. 
+
+
 
 To install this on c9, clone the repository. Then, before you run it
 for the first time, you'd do

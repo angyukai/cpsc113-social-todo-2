@@ -138,7 +138,7 @@ def createTask(request):
             except Exception as error:
                 return HttpResponseRedirect('/tasks?error='+str(error)[1:-1])
             return HttpResponseRedirect('/tasks')
-                # 			return HttpResponseRedirect('/')
+            
         return HttpResponseRedirect('/tasks?error=invalid_input')
     return HttpResponse(403)
         
